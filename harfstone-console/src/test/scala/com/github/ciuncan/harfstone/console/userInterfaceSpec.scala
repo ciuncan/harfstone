@@ -168,12 +168,12 @@ object userInterfaceSpec extends DefaultRunnableSpec {
              |
              |Player1 Health: 19
              |Player1 Cards:   0  1  2
-             |               ${AC.RED}  7${AC.RESET}${AC.GREEN}  1${AC.RESET}${AC.GREEN}  5${AC.RESET}
+             |               ${AC.RED}  7${AC.RESET}${AC.GREEN}  1${AC.RESET}${AC.GREEN}  6${AC.RESET}
              |Player1 Deck has 1 cards
              |
              |Player2 Health: 14
              |Player2 Cards:   0  1  2
-             |                 8  2  6
+             |                 8  2  5
              |Player2 Deck has 2 cards
              |""".stripMargin.trim
 
@@ -191,12 +191,12 @@ object userInterfaceSpec extends DefaultRunnableSpec {
     players = Map(
       PlayerTag.First  -> Player(
         deck = Deck(Vector(1).map(Card(_))),
-        hand = Deck(Vector(7, 1, 5).map(Card(_))),
+        hand = Deck(Vector(7, 1, 6).map(Card(_))),
         currentHealth = 19
       ),
       PlayerTag.Second -> Player(
         deck = Deck(Vector(2, 4).map(Card(_))),
-        hand = Deck(Vector(8, 2, 6).map(Card(_))),
+        hand = Deck(Vector(8, 2, 5).map(Card(_))),
         currentHealth = 14
       )
     ),

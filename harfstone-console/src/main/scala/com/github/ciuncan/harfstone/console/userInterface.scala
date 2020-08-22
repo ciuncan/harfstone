@@ -141,7 +141,7 @@ object userInterface {
             currentPlayer <- ZIO.access[Game](_.currentPlayerTag)
             color          = if (owner != currentPlayer)
                                ""
-                             else if (card.manaCost < currentMana)
+                             else if (card.manaCost <= currentMana)
                                AC.GREEN
                              else
                                AC.RED
