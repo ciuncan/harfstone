@@ -32,7 +32,7 @@ lazy val `harfstone-console` = (project in file("./harfstone-console"))
   .dependsOn(`harfstone-core` % "compile->compile;test->test")
   .settings(
     name := "harfstone-console",
-    fork in run := true,
-    logBuffered in run := false,
-    connectInput in run := true
+    run / fork := true,
+    run / connectInput := true,
+    run / outputStrategy := Some(StdoutOutput)
   )
