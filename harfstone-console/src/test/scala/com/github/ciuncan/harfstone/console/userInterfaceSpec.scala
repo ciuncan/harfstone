@@ -16,6 +16,7 @@ import com.github.ciuncan.harfstone.console.userInterface.UserInterface
 import zio.test._
 import zio.test.Assertion._
 import zio.test.BoolAlgebra.all
+import zio.test.TestAspect.silent
 import zio.test.environment._
 
 import scala.io.{AnsiColor => AC}
@@ -184,8 +185,7 @@ object userInterfaceSpec extends DefaultRunnableSpec {
           assert(actual)(equalTo(expected))
         }
       )
-    )
-      .provideCustomLayer(UserInterface.live)
+    ).provideCustomLayer(UserInterface.live) @@ silent
 
   val sampleGame = Game(
     players = Map(
