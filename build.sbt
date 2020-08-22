@@ -28,4 +28,11 @@ lazy val `harfstone-core` = (project in file("./harfstone-core"))
     name := "harfstone-core"
   )
 
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
+lazy val `harfstone-console` = (project in file("./harfstone-console"))
+  .dependsOn(`harfstone-core` % "compile->compile;test->test")
+  .settings(
+    name := "harfstone-console",
+    fork in run := true,
+    logBuffered in run := false,
+    connectInput in run := true
+  )
