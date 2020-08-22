@@ -1,5 +1,7 @@
 # Harfstone
 
+[![Scala CI](https://github.com/ciuncan/harfstone/workflows/Scala%20CI/badge.svg)](https://github.com/ciuncan/harfstone/actions)
+
 ## Projects
 
 - **`harfstone-core`**: Defines the core logic of game Harfstone which can be used with any fronted.A later addition might be to use ScalaJS to create a HTML/`canvas` based front-end and make it run in browsers.
