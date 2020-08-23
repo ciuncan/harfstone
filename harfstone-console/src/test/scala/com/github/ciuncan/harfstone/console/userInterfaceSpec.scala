@@ -160,8 +160,8 @@ object userInterfaceSpec extends DefaultRunnableSpec {
           _      <- TestConsole.clearOutput
           _      <- printGame(sampleGame)
           output <- TestConsole.output
-        } yield {
-          val expected = s"""
+        } yield assert(output.mkString.trim)(equalTo(
+          s"""
              |Turn: 6
              |
              |Current player: ${AC.BOLD + AC.CYAN}First${AC.RESET}
@@ -177,13 +177,7 @@ object userInterfaceSpec extends DefaultRunnableSpec {
              |                 8  2  5
              |Player2 Deck has 2 cards
              |""".stripMargin.trim
-
-          val actual = output.mkString.trim
-
-          val diff = actual.zip(expected).zipWithIndex.filter({ case ((a, e), _) => a != e }).toArray
-          println(s"actual.length=${actual.length} expected.length=${expected.length}\n$diff")
-          assert(actual)(equalTo(expected))
-        }
+        ))
       )
     ).provideCustomLayer(UserInterface.live) @@ silent
 

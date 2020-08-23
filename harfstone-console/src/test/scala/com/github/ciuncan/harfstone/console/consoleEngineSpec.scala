@@ -55,8 +55,6 @@ object consoleEngineSpec extends DefaultRunnableSpec {
     1
   )
 
-  val updatedGame = sampleGame.modify(_.turn).using(_ + 1)
-
   /**
     * Expectations can be implicitly converted to ZLayer which can provide its type argument, i.e.
     * dependencies of ConsoleEngine.Service.
