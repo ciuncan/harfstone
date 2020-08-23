@@ -3,6 +3,8 @@ package com.github.ciuncan.harfstone.console
 import com.github.ciuncan.harfstone.core.models.Card
 import com.github.ciuncan.harfstone.core.models.Game
 import com.github.ciuncan.harfstone.core.models.GameException
+import com.github.ciuncan.harfstone.core.models.GameException.InvalidHandIndex
+import com.github.ciuncan.harfstone.core.models.GameException.NotEnoughMana
 import com.github.ciuncan.harfstone.core.models.PlayerTag
 import com.github.ciuncan.harfstone.core.models.UserEvent
 
@@ -81,7 +83,13 @@ object userInterface {
         def printWinner(playerTag: PlayerTag): UIO[Unit] =
           console.putStr("Winner is ") *> printPlayerTag(playerTag) *> console.putStrLn("!")
 
-        def handleGameException(e: GameException): UIO[Unit] = console.putStrLn(e.getMessage)
+        def handleGameException(e: GameException): UIO[Unit] =
+          console.putStrLn(e match {
+            case InvalidHandIndex(hand, index)    =>
+              s"$index is invalid, please enter a number between 0 and ${hand.size - 1}."
+            case NotEnoughMana(card, currentMana) =>
+              s"Not enough mana to play card $card, you only have $currentMana."
+          })
 
         def readEvent: IO[ExitGameRequest, UserEvent] =
           for {

@@ -29,7 +29,7 @@ object processInteractionSuite extends DefaultRunnableSpec {
       testM("should increase turn and current mana if current player was second")(
         for {
           game     <- initializeGame
-          modGame   = game.modify(_.currentPlayerTag).setTo(PlayerTag.Second)
+          modGame   = game.copy(currentPlayerTag = PlayerTag.Second)
           procGame <- processInteraction(modGame, UserEvent.EndTurn)
         } yield all(
           assert(procGame.turn)(equalTo(2)),
@@ -39,10 +39,8 @@ object processInteractionSuite extends DefaultRunnableSpec {
       testM("should switch the player and set the mana equal to turn if turn less than 10")(
         checkM(genPlayerTag, Gen.int(1, 9))((currentPlayer, turn) =>
           for {
-            game     <- initializeGame
-            modGame   = game
-                          .modify(_.currentPlayerTag).setTo(currentPlayer)
-                          .modify(_.turn).setTo(turn)
+            game   <- initializeGame
+            modGame = game.copy(turn = turn, currentPlayerTag = currentPlayer)
 
             procGame <- processInteraction(modGame, UserEvent.EndTurn)
           } yield all(
@@ -55,7 +53,7 @@ object processInteractionSuite extends DefaultRunnableSpec {
         checkM(genPlayerTag, Gen.int(10, 100))((currentPlayerTag, turn) =>
           for {
             game     <- initializeGame
-            modGame   = game.modify(_.turn).setTo(turn).modify(_.currentPlayerTag).setTo(currentPlayerTag)
+            modGame   = game.copy(turn = turn, currentPlayerTag = currentPlayerTag)
             procGame <- processInteraction(modGame, UserEvent.EndTurn)
           } yield all(
             assert(procGame.currentPlayerTag)(equalTo(currentPlayerTag.other)),
@@ -188,10 +186,7 @@ object processInteractionSuite extends DefaultRunnableSpec {
                                  .modify(_.players.at(thePlayerTag).hand).setTo(hand)
 
             postGameOrError <- processInteraction(preGame, UserEvent.PlayCard(invalidHandIndex)).either
-          } yield assert(postGameOrError)(equalTo(Left(InvalidHandIndex(
-            deck = hand,
-            index = invalidHandIndex
-          ))))
+          } yield assert(postGameOrError)(equalTo(Left(InvalidHandIndex(hand, invalidHandIndex))))
       }
     )
   )

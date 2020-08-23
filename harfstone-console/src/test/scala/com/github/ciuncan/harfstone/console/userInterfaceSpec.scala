@@ -55,8 +55,8 @@ object userInterfaceSpec extends DefaultRunnableSpec {
               _      <- handleGameException(NotEnoughMana(card, currentMana))
               output <- TestConsole.output
             } yield assert(output)(equalTo(Vector(
-              s"${InvalidHandIndex(hand, index).getMessage}\n",
-              s"${NotEnoughMana(card, currentMana).getMessage}\n"
+              s"$index is invalid, please enter a number between 0 and ${hand.size - 1}.\n",
+              s"Not enough mana to play card $card, you only have $currentMana.\n"
             )))
         }
       ),

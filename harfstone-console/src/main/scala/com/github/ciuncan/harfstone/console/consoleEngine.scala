@@ -56,7 +56,7 @@ object consoleEngine {
             // TODO: Fix after Scala3
             // In dotty/Scala3 with union types, this type would be:
             // val gameStep: IO[ExitGameRequest | GameException, Game]
-            val gameStep: IO[RuntimeException, Game] = for {
+            val gameStep: IO[Throwable, Game] = for {
               _         <- userInterface.printGame(game)
               event     <- userInterface.readEvent
               procGame  <- gameLogic.processInteraction(game, event)
@@ -68,7 +68,7 @@ object consoleEngine {
             } yield finalGame
 
             // after handling GameException, we would be left with ExitGameRequest,
-            // but compiler doesn't understand this and continue with RuntimeException
+            // but compiler doesn't understand this and continue with Throwable
             gameStep
               .catchSome({
                 case e: GameException => userInterface.handleGameException(e) *> gameLoop(game)

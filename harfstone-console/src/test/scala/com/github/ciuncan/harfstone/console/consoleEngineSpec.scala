@@ -159,7 +159,7 @@ object consoleEngineSpec extends DefaultRunnableSpec {
       scenario =
         GameLogicMock.InitializeGame(value(sampleGame)) ++
 
-          gameStepWithExceptionScenario(sampleGame, InvalidHandIndex(deck = Deck.empty, index = 0)) ++
+          gameStepWithExceptionScenario(sampleGame, InvalidHandIndex(hand = Deck.empty, index = 0)) ++
           UserInterfaceMock.HandleGameException(equalTo(InvalidHandIndex(Deck.empty, 0).asInstanceOf[GameException])) ++
           gameStepScenario(sampleGame, incTurn) ++
 
