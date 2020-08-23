@@ -1,5 +1,9 @@
 # Harfstone
 
+A simple card game written in Scala using ZIO.
+
+Harfstone is a word game on Hearthstone, a deck building card game, where "harf" means "letter" in Turkish, hence the gross simplification of the complex game Hearthstone. Cards are identified by their mana costs (0-8) and the damage they do is equal to their mana cost.
+
 [![Scala CI](https://github.com/ciuncan/harfstone/workflows/Scala%20CI/badge.svg)](https://github.com/ciuncan/harfstone/actions)
 
 ## Projects
