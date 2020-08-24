@@ -1,9 +1,11 @@
 package com.github.ciuncan.harfstone.core.models
 
+import com.github.ciuncan.harfstone.core.util.EnumBase
+
 /**
   * Possible exceptions of during player interaction.
   */
-sealed trait GameException extends Throwable with Product with Serializable
+sealed trait GameException extends Throwable with EnumBase[GameException]
 object GameException {
 
   /**

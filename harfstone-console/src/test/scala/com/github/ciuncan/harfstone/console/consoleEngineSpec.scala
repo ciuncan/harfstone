@@ -106,7 +106,7 @@ object consoleEngineSpec extends DefaultRunnableSpec {
       scenario =
         GameLogicMock.InitializeGame(value(sampleGame)) ++
           gameStepScenario(sampleGame, incTurn, maybeWinner = Some(PlayerTag.First)) ++
-          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.asInstanceOf[PlayerTag])) ++
+          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.widen)) ++
           UserInterfaceMock.AskAnotherGame(value(false)),
       expectedResult = Right(())
     ),
@@ -117,7 +117,7 @@ object consoleEngineSpec extends DefaultRunnableSpec {
           gameStepScenario(sampleGame, incTurn) ++
           gameStepScenario(sampleGame.copy(turn = 2), incTurn) ++
           gameStepScenario(sampleGame.copy(turn = 3), incTurn, maybeWinner = Some(PlayerTag.First)) ++
-          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.asInstanceOf[PlayerTag])) ++
+          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.widen)) ++
           UserInterfaceMock.AskAnotherGame(value(false)),
       expectedResult = Right(())
     ),
@@ -126,12 +126,12 @@ object consoleEngineSpec extends DefaultRunnableSpec {
       scenario =
         GameLogicMock.InitializeGame(value(sampleGame)) ++
           gameStepScenario(sampleGame, incTurn, maybeWinner = Some(PlayerTag.Second)) ++
-          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.Second.asInstanceOf[PlayerTag])) ++
+          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.Second.widen)) ++
           UserInterfaceMock.AskAnotherGame(value(true)) ++
 
           GameLogicMock.InitializeGame(value(sampleGame)) ++
           gameStepScenario(sampleGame, incTurn, maybeWinner = Some(PlayerTag.First)) ++
-          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.asInstanceOf[PlayerTag])) ++
+          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.widen)) ++
           UserInterfaceMock.AskAnotherGame(value(false)),
       expectedResult = Right(())
     ),
@@ -148,7 +148,7 @@ object consoleEngineSpec extends DefaultRunnableSpec {
       scenario =
         GameLogicMock.InitializeGame(value(sampleGame)) ++
           gameStepScenario(sampleGame, incTurn, maybeWinner = Some(PlayerTag.First)) ++
-          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.asInstanceOf[PlayerTag])) ++
+          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.widen)) ++
           UserInterfaceMock.AskAnotherGame(failure(ExitGameRequest())),
       expectedResult = Left(ExitGameRequest())
     ),
@@ -158,14 +158,14 @@ object consoleEngineSpec extends DefaultRunnableSpec {
         GameLogicMock.InitializeGame(value(sampleGame)) ++
 
           gameStepWithExceptionScenario(sampleGame, InvalidHandIndex(hand = Deck.empty, index = 0)) ++
-          UserInterfaceMock.HandleGameException(equalTo(InvalidHandIndex(Deck.empty, 0).asInstanceOf[GameException])) ++
+          UserInterfaceMock.HandleGameException(equalTo(InvalidHandIndex(Deck.empty, 0).widen)) ++
           gameStepScenario(sampleGame, incTurn) ++
 
           gameStepWithExceptionScenario(sampleGame.copy(turn = 2), NotEnoughMana(card = Card(8), currentMana = 7)) ++
-          UserInterfaceMock.HandleGameException(equalTo(NotEnoughMana(Card(8), 7).asInstanceOf[GameException])) ++
+          UserInterfaceMock.HandleGameException(equalTo(NotEnoughMana(Card(8), 7).widen)) ++
           gameStepScenario(sampleGame.copy(turn = 2), incTurn, maybeWinner = Some(PlayerTag.First)) ++
 
-          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.asInstanceOf[PlayerTag])) ++
+          UserInterfaceMock.PrintWinner(equalTo(PlayerTag.First.widen)) ++
           UserInterfaceMock.AskAnotherGame(value(false)),
       expectedResult = Right(())
     )

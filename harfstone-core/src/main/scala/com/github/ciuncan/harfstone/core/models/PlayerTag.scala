@@ -1,9 +1,11 @@
 package com.github.ciuncan.harfstone.core.models
 
+import com.github.ciuncan.harfstone.core.util.EnumBase
+
 /**
   * Tag of a player, can be either First or Second.
   */
-sealed trait PlayerTag extends Product with Serializable {
+sealed trait PlayerTag extends EnumBase[PlayerTag] {
 
   /**
     * Other player than this one.
