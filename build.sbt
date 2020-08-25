@@ -1,5 +1,7 @@
 import Dependencies._
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 inThisBuild(
   List(
     scalaVersion := "2.13.3",
@@ -23,7 +25,16 @@ inThisBuild(
     ),
     libraryDependencies ++= quicklens +: zio,
     libraryDependencies ++= (scalaTest +: zioTest).map(_ % Test),
-    testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
+    testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
+    console / initialCommands += """
+      |import ammonite.ops._
+      |import zio._
+      |import zio.clock._
+      |import zio.console._
+      |import zio.duration._
+      |import zio.Runtime.default._
+      |implicit class RunSyntax[A](io: ZIO[ZEnv, Any, A]) { def r: A = Runtime.default.unsafeRun(io.provideLayer(ZEnv.live)) }
+    """.stripMargin
   )
 )
 

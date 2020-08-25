@@ -68,9 +68,9 @@ object consoleEngineSpec extends DefaultRunnableSpec {
   case class ScenarioTest(label: String, scenario: GameScenario, expectedResult: Either[ExitGameRequest, Unit]) {
     def toTest =
       testM(label)(
-        for {
-          result <- startGameWithScenario(scenario).either
-        } yield assert(result)(equalTo(expectedResult))
+        assertM(startGameWithScenario(scenario).either)(
+          equalTo(expectedResult)
+        )
       )
   }
 
