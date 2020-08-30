@@ -24,8 +24,15 @@ inThisBuild(
       "-Yrangepos"
     ),
     libraryDependencies ++= quicklens +: zio,
-    libraryDependencies ++= (scalaTest +: zioTest).map(_ % Test),
+    libraryDependencies ++= (scalaTest +: scalaCheck +: zioTest).map(_ % Test),
+    libraryDependencies ++= Seq(
+      "org.specs2" %% "specs2-core"       % "4.10.3" % Test,
+      "org.specs2" %% "specs2-scalacheck" % "4.10.3" % Test
+    ),
+    doctestTestFramework := DoctestTestFramework.Specs2,
+    // doctestTestFramework := DoctestTestFramework.ScalaTest,
     testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
+    parallelExecution in Test := true,
     console / initialCommands += """
       |import ammonite.ops._
       |import zio._
@@ -37,6 +44,15 @@ inThisBuild(
     """.stripMargin
   )
 )
+
+lazy val root = (project in file("."))
+  .settings(
+    name := "harfstone"
+  )
+  .aggregate(
+    `harfstone-core`,
+    `harfstone-console`
+  )
 
 lazy val `harfstone-core` = (project in file("./harfstone-core"))
   .settings(

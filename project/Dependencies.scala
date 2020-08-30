@@ -1,7 +1,9 @@
 import sbt._
 
 object Dependencies {
-  lazy val scalaTest = "org.scalatest"              %% "scalatest" % "3.1.1"
+  lazy val scalaTest  = "org.scalatest"     %% "scalatest"       % "3.1.2"
+  lazy val scalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.2.0"
+
   lazy val quicklens = "com.softwaremill.quicklens" %% "quicklens" % "1.6.1"
 
   lazy val zio = Seq(

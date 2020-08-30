@@ -21,6 +21,6 @@ object Main extends zio.App {
     ConsoleEngine.startGame.provideLayer(fullLayer)
 
   override def run(args: List[String]): URIO[ZEnv, ExitCode] =
-    program.fold(_ => ExitCode.failure, _ => ExitCode.success)
+    program.exitCode
 
 }

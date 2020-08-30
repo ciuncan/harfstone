@@ -26,10 +26,12 @@ object Implicits {
       *
       * @example
       * {{{
-      *   case class X(a: Int, b: String)
-      *   val x = X(5, "hello")
-      *   val newX = x.modify(_.b).usingBase(_.a.toString)
-      *   newX shouldEqual X(5, "5")
+      * scala> import com.softwaremill.quicklens._
+      *      | import com.github.ciuncan.harfstone.core.util.Implicits.RichPathModify
+      *      | case class X(a: Int, b: String)
+      *
+      * scala> X(5, "hello").modify(_.b).usingBase(_.a.toString + "x")
+      * res0: X = X(5,5x)
       * }}}
       * @param mod Given function that returns U from base object T
       * @return Updated base object with given function
@@ -41,10 +43,16 @@ object Implicits {
       *
       * @example
       * {{{
-      *   case class X(a: Int)
-      *   def halfOfEven(a: Int): Option[Int] = if (a % 2 == 0) Some(a/2) else None
-      *   X(5).modify(_.a).usingSome(halfOfEven) shouldEqual X(5)
-      *   X(6).modify(_.a).usingSome(halfOfEven) shouldEqual X(3)
+      * scala> import com.softwaremill.quicklens._
+      *      | import com.github.ciuncan.harfstone.core.util.Implicits.RichPathModify
+      *      | def halfOfEven(a: Int): Option[Int] = if (a % 2 == 0) Some(a/2) else None
+      *      | case class X(a: Int)
+      *
+      * scala> X(5).modify(_.a).usingSome(halfOfEven)
+      * res0: X = X(5)
+      *
+      * scala> X(6).modify(_.a).usingSome(halfOfEven)
+      * res1: X = X(3)
       * }}}
       * @param modOptional Given function that may return a modified value of U
       * @return Updated base object
@@ -56,14 +64,20 @@ object Implicits {
       *
       * @example
       * {{{
-      *   case class X(a: Int)
-      *   def halfOfEven(a: Int): Either[InvalidArgumentException, Int] =
-      *     if (a % 2 == 0)
-      *       Right(a/2)
-      *     else
-      *       Left(new InvalidArgumentException(s"$a isn't even"))
-      *   X(5).modify(_.a).usingEither(halfOfEven) shouldEqual X(5)
-      *   X(6).modify(_.a).usingEither(halfOfEven) shouldEqual X(3)
+      * scala> import com.softwaremill.quicklens._
+      *      | import com.github.ciuncan.harfstone.core.util.Implicits.RichPathModify
+      *      | case class X(a: Int)
+      *      | def halfOfEven(a: Int): Either[IllegalArgumentException, Int] =
+      *      |   if (a % 2 == 0)
+      *      |     Right(a/2)
+      *      |   else
+      *      |     Left(new IllegalArgumentException(s"$a isn't even"))
+      *
+      * scala> X(5).modify(_.a).usingRight(halfOfEven)
+      * res0: X = X(5)
+      *
+      * scala> X(6).modify(_.a).usingRight(halfOfEven)
+      * res1: X = X(3)
       * }}}
       * @param modEither Given function that may return either a modified value of U or any error
       * @return Updated base object
