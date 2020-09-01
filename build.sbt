@@ -35,19 +35,27 @@ inThisBuild(
     parallelExecution in Test := true,
     console / initialCommands += """
       |import ammonite.ops._
+      |
+      |import com.softwaremill.quicklens._
+      |
       |import zio._
       |import zio.clock._
       |import zio.console._
       |import zio.duration._
       |import zio.Runtime.default._
+      |
       |implicit class RunSyntax[A](io: ZIO[ZEnv, Any, A]) { def r: A = Runtime.default.unsafeRun(io.provideLayer(ZEnv.live)) }
-    """.stripMargin
+      |
+      |import com.github.ciuncan.harfstone._
+      |import core.util.Implicits._
+      |""".stripMargin
   )
 )
 
 lazy val root = (project in file("."))
   .settings(
-    name := "harfstone"
+    name := "harfstone",
+    Ammonite / console := (`harfstone-core` / Ammonite / console).value
   )
   .aggregate(
     `harfstone-core`,
