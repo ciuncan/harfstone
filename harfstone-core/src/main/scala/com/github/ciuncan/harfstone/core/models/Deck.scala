@@ -58,7 +58,7 @@ final case class Deck(cards: Vector[Card]) {
     */
   def countOf(card: Card): Int = cards.count(_ == card)
 
-  private def checkIndex(index: Int): Either[InvalidHandIndex, ()] =
+  private def checkIndex(index: Int): Either[InvalidHandIndex, Unit] =
     if (0 <= index && index < size)
       Right(())
     else
