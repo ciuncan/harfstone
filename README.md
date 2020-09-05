@@ -24,3 +24,17 @@ To run tests with coverage:
 sbt clean coverage test
 sbt coverageReport
 ```
+
+## Creating Binaries
+
+`harfstone-console` uses `sbt-native-image` plugin to create native images.
+
+```bash
+sbt harfstone-console/nativeImage
+```
+
+Run:
+
+```bash
+./harfstone-console/target/native-image/harfstone-console
+```

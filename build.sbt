@@ -75,3 +75,4 @@ lazy val `harfstone-console` = (project in file("./harfstone-console"))
     run / connectInput := true,
     run / outputStrategy := Some(StdoutOutput)
   )
+  .enablePlugins(NativeImagePlugin)
